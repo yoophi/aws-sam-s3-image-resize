@@ -40,4 +40,24 @@ Key                 BucketRef
 Description         S3 Bucket Ref
 Value               <your-s3-bucket-name>
 -----------------------------------------------------------------------------------------
+
+
+
+
+CloudFormation outputs from deployed stack
+-----------------------------------------------------------------------------------------
+Outputs
+-----------------------------------------------------------------------------------------
+Key                 ResizedImageBucketRef
+Description         S3 Bucket for Resized Image Ref
+Value               your-bucket-resized
+
+Key                 SrcBucketRef
+Description         S3 Bucket for Src Image Ref
+Value               your-bucket-src
+
+Key                 ResizedImageBucketUrl
+Description         S3 Bucket for Resized Image Url
+Value               http://your-bucket-resized.s3-website.ap-northeast-2.amazonaws.com
+-----------------------------------------------------------------------------------------
 ```

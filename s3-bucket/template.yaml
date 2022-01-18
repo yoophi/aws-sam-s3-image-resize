@@ -9,10 +9,23 @@ Parameters:
     Default: 'your-bucket-name'
 
 Resources:
-  S3Bucket:
+  SrcImageS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref BucketName
+      BucketName: 
+        !Join
+        - ''
+        - - !Ref BucketName
+          - '-src'
+
+  ResizedImageS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: 
+        !Join
+        - ''
+        - - !Ref BucketName
+          - '-resized'
       WebsiteConfiguration:
         ErrorDocument: "index.html"
         IndexDocument: "index.html"
@@ -20,18 +33,21 @@ Resources:
   ReadPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
-      Bucket: !Ref S3Bucket
+      Bucket: !Ref ResizedImageS3Bucket
       PolicyDocument:
         Statement:
           - Action: "s3:GetObject"
             Effect: Allow
-            Resource: !Sub "arn:aws:s3:::${S3Bucket}/*"
+            Resource: !Sub "arn:aws:s3:::${ResizedImageS3Bucket}/*"
             Principal: "*"
 
 Outputs:
-  BucketRef:
-    Description: "S3 Bucket Ref"
-    Value: !Ref S3Bucket
-  BucketUrl:
-    Description: "S3 Bucket Url"
-    Value: !GetAtt S3Bucket.WebsiteURL
+  SrcBucketRef:
+    Description: "S3 Bucket for Src Image Ref"
+    Value: !Ref SrcImageS3Bucket
+  ResizedImageBucketRef:
+    Description: "S3 Bucket for Resized Image Ref"
+    Value: !Ref ResizedImageS3Bucket
+  ResizedImageBucketUrl:
+    Description: "S3 Bucket for Resized Image Url"
+    Value: !GetAtt ResizedImageS3Bucket.WebsiteURL
