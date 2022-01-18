@@ -1,0 +1,1 @@
+# aws-sam-s3-image-resize
