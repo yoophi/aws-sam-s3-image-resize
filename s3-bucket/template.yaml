@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Create S3 Bucket for Website Access
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: 'your-bucket-name'
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        ErrorDocument: "index.html"
+        IndexDocument: "index.html"
+
+  ReadPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Action: "s3:GetObject"
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${S3Bucket}/*"
+            Principal: "*"
+
+Outputs:
+  BucketRef:
+    Description: "S3 Bucket Ref"
+    Value: !Ref S3Bucket
+  BucketUrl:
+    Description: "S3 Bucket Url"
+    Value: !GetAtt S3Bucket.WebsiteURL
